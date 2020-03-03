@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="51sp"
+        android:orientation="horizontal"
+        android:background="#000"
+        >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:orientation="horizontal"
+        android:background="@drawable/gradientbackground"
+        >
+        <TextView
+            android:id="@+id/TotalAmountShow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="999999"
+            android:textColor="#000"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10sp"/>
+        <com.github.lzyzsd.circleprogress.CircleProgress
+            android:id="@+id/circle_progress"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+           android:layout_marginLeft="10sp"
+            android:layout_gravity="center"
+            />
+
+
+
+        <Spinner
+            android:id="@+id/MonthList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/country_arrays"
+            android:prompt="@string/country_prompt"
+            android:gravity="center"
+
+            android:padding="10dp"
+            android:layout_gravity="center"/>
+
+        <Button
+            android:layout_width="50sp"
+            android:layout_height="40sp"
+            android:textAllCaps="false"
+            android:padding="5dp"
+            android:background="@drawable/buttonstylegray"
+            style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:text="Submit"
+            android:textSize="11dp"
+            android:layout_gravity="center"
+            android:id="@+id/monthbtn"/>
+        
+       </LinearLayout>
+
+</LinearLayout>
+
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30sp"
+        android:background="#000"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="14sp"
+            android:layout_height="29sp"
+            android:layout_gravity="center"
+            android:background="@color/lightcardblue1"
+            android:gravity="center"
+            android:text="No"
+            android:textSize="10sp" />
+
+        <View
+            android:layout_width="1sp"
+            android:layout_height="match_parent"
+            android:background="#000" />
+
+        <TextView
+            android:layout_width="44sp"
+            android:layout_height="29sp"
+            android:layout_gravity="center"
+            android:background="@color/lightcardblue1"
+            android:gravity="center"
+            android:text="Date"
+            android:textColor="#000" />
+
+        <View
+            android:layout_width="1sp"
+            android:layout_height="match_parent"
+            android:background="#000" />
+
+        <TextView
+            android:layout_width="54sp"
+            android:layout_height="29sp"
+            android:layout_gravity="center"
+            android:background="@color/lightcardblue1"
+            android:gravity="center"
+            android:text="Catg"
+            android:textColor="#000" />
+
+        <View
+            android:layout_width="1sp"
+            android:layout_height="match_parent"
+            android:background="#000" />
+
+        <TextView
+            android:layout_width="54sp"
+            android:layout_height="29sp"
+            android:layout_gravity="center"
+            android:background="@color/lightcardblue1"
+            android:gravity="center"
+            android:text="Amount"
+            android:textColor="#000" />
+
+        <View
+            android:layout_width="1sp"
+            android:layout_height="match_parent"
+            android:background="#000" />
+
+        <TextView
+            android:layout_width="139sp"
+            android:layout_height="29sp"
+            android:layout_gravity="center"
+            android:background="@color/lightcardblue1"
+            android:gravity="center"
+            android:text="Comment"
+            android:textColor="#000"
+            android:textSize="11sp" />
+
+        <View
+            android:layout_width="1sp"
+            android:layout_height="match_parent"
+            android:background="#000" />
+
+        <TextView
+            android:layout_width="14sp"
+            android:layout_height="29sp"
+            android:layout_gravity="center"
+            android:background="@color/lightcardblue1"
+            android:gravity="center"
+            android:text="BY"
+            android:textColor="#000"
+            android:textSize="10sp" />
+
+        <View
+            android:layout_width="1sp"
+            android:layout_height="match_parent"
+            android:background="#000" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/lightcardblue1"
+            android:gravity="center"
+            android:text="Status"
+            android:textColor="#000"
+            android:textSize="9sp" />
+
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/recylcerviewid">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adViewBanner1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="@string/TestAdmobBanner1">
+    </com.google.android.gms.ads.AdView>
+
+
+</LinearLayout>

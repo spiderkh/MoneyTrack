@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimaryDark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_margin="2dp"
+        android:orientation="vertical"
+        android:background="@drawable/gradientbackground">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:background="@color/colorPrimaryDark"
+            android:padding="2dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="5dp"
+                android:src="@mipmap/ic_launcher" />
+
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="50dp"
+                android:layout_marginLeft="50dp"
+                android:text="@string/app_name"
+                android:textColor="#fff"
+                android:textSize="24dp"
+                android:textStyle="bold" />
+
+
+            <ImageView
+                android:id="@+id/noIdOnExitid"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="13dp"
+                android:src="@drawable/ic_close_white_24dp" />
+
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:padding="2dp"
+            android:layout_marginLeft="-10dp">
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/passChangeauth"
+                android:hint="Enter Password"
+                android:maxLength="14"
+                android:inputType="textPassword"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/RedButton"
+                android:textAllCaps="false"
+                android:text="Verify"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/verifypassbtn"/>
+            <LinearLayout
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_check_dark_green_24dp"
+                    android:visibility="gone"
+                    android:id="@+id/verifyok"
+                    />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_close_red_24dp"
+                    android:visibility="gone"
+                    android:id="@+id/verifyfailed"
+                    />
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:layout_marginTop="30dp"
+           android:gravity="center"
+           android:visibility="gone"
+           android:id="@+id/layoutofbtn">
+           <Button
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:theme="@style/RedButton"
+               android:text="Delet"
+               android:textAllCaps="false"
+               android:id="@+id/deletebtnid"/>
+           <android.support.v7.widget.AppCompatButton
+               android:id="@+id/updatebtnid"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Update"
+               android:textColor="@color/whiteColor"
+               app:backgroundTint="@color/primary_dark"
+               android:textAllCaps="false"
+               android:layout_marginLeft="5dp"/>
+           <android.support.v7.widget.AppCompatButton
+               android:id="@+id/donebtnid"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Done"
+               android:textColor="@color/whiteColor"
+               app:backgroundTint="@color/primary_dark"
+               android:textAllCaps="false"
+               android:layout_marginLeft="5dp"/>
+
+
+       </LinearLayout>
+
+
+
+    </LinearLayout>
+</RelativeLayout>
