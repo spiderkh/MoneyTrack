@@ -58,6 +58,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 
+
+
 public class Frame_details extends Fragment {
     private static final String TAG = "Frame_details";
     DatabaseReference databaseReference;
@@ -82,6 +84,9 @@ public class Frame_details extends Fragment {
     Context context;
     float[] yData =new float[6];  //={10.f,20.7f,12f,30f,25f,40f,21f};
     String[] xData={"Chicken","Veg","Dmart","Travel","Other","water"};
+    String dbUsedForFirebase;
+
+
 
     @Nullable
     @Override
@@ -89,6 +94,8 @@ public class Frame_details extends Fragment {
         Log.d("TAG","Inside Frame Details");
 
         View v=inflater.inflate(R.layout.activity_view_details,container,false);
+        dbUsedForFirebase= this.getActivity().getResources().getString(R.string.firebaseDbUsed);
+
 
 
 
@@ -366,7 +373,8 @@ public class Frame_details extends Fragment {
 
         if (!currentmonthname.equals("See By Month"))
         {
-            databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child("expenses").child(groupCode).child(getYearName);
+
+            databaseReference = FirebaseDatabase.getInstance().getReference().child(dbUsedForFirebase).child("expenses").child(groupCode).child(getYearName);
             Log.d(TAG,"Before PList clear");
 
             databaseReference.addValueEventListener(new ValueEventListener() {
@@ -457,6 +465,7 @@ public class Frame_details extends Fragment {
                        txtColor =Color.rgb(000, 000, 000);
                     }
 
+
                     cpb.setUnfinishedColor(unfinesdColor);
                     cpb.setFinishedColor(bgColor);
                     cpb.setTextColor(txtColor);
@@ -523,7 +532,7 @@ public class Frame_details extends Fragment {
 
         re.add(0,"See By Month");
 
-        databaseReference= FirebaseDatabase.getInstance().getReference().child("users").child("expenses").child(groupCode).child(getYearName);
+        databaseReference= FirebaseDatabase.getInstance().getReference().child(dbUsedForFirebase).child("expenses").child(groupCode).child(getYearName);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override

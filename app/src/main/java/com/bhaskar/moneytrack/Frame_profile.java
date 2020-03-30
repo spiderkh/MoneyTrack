@@ -30,7 +30,10 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+
+
 public class Frame_profile extends Fragment {
+    String dbUsedForFirebase;
     TextView name,role,mail,groupcode,saveProfile;
     EditText phone,groupname,limit;
     ImageView editProfile,logout;
@@ -50,6 +53,7 @@ public class Frame_profile extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.profileshow,container,false);
         mAuth=FirebaseAuth.getInstance();
+        dbUsedForFirebase= this.getActivity().getResources().getString(R.string.firebaseDbUsed);
         name=v.findViewById(R.id.pname);
         role=v.findViewById(R.id.prole);
         mail=v.findViewById(R.id.pemail);
@@ -62,7 +66,7 @@ public class Frame_profile extends Fragment {
         saveProfile=v.findViewById(R.id.saveProfile);
         logout=v.findViewById(R.id.logoutProfile);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+        mDatabase = FirebaseDatabase.getInstance().getReference(dbUsedForFirebase);
 
         if (currentUser != null) {
 
@@ -218,7 +222,7 @@ public class Frame_profile extends Fragment {
                 Log.d(TAG,"pd value= after set "+pd.toString());
                 final ArrayList<String> prof5=new ArrayList<>();
                //testCOde FirebaseDatabase.getInstance().getReference().child("test").child("users").child("profile").child(pd.getGroupCode()).child(pd.getUniqueKey()).child("mobile").setValue(pd.getMobile());
-                FirebaseDatabase.getInstance().getReference().child("users").child("profile").child(pd.getGroupCode()).child(pd.getUniqueKey()).child("mobile").setValue(pd.getMobile());
+                FirebaseDatabase.getInstance().getReference().child(dbUsedForFirebase).child("profile").child(pd.getGroupCode()).child(pd.getUniqueKey()).child("mobile").setValue(pd.getMobile());
 
                 mDatabase.child("profile").child(pd.getGroupCode()).addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -241,7 +245,7 @@ public class Frame_profile extends Fragment {
                                         {
                                             Log.d(TAG,"entered in groupcode set VAlue");
                                         //testCode DatabaseReference ds= FirebaseDatabase.getInstance().getReference().child("test").child("users").child("profile").child(pd.getGroupCode()).child(ProfKey);
-                                            DatabaseReference ds= FirebaseDatabase.getInstance().getReference().child("users").child("profile").child(pd.getGroupCode()).child(ProfKey);
+                                            DatabaseReference ds= FirebaseDatabase.getInstance().getReference().child(dbUsedForFirebase).child("profile").child(pd.getGroupCode()).child(ProfKey);
                                          ds.child("limit").setValue(pd.getLimit());
                                          ds.child("groupName").setValue(pd.getGroupName());
 

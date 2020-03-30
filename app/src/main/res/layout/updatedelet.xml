@@ -130,7 +130,7 @@
                android:id="@+id/donebtnid"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:text="Done"
+               android:text="View"
                android:textColor="@color/whiteColor"
                app:backgroundTint="@color/primary_dark"
                android:textAllCaps="false"

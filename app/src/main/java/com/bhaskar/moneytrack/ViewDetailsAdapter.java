@@ -43,9 +43,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.EventListener;
 
+
+
 public class ViewDetailsAdapter extends RecyclerView.Adapter<ViewDetailsAdapter.MyViewHolder> {
+
     private static final String TAG = "ViewDetailsAdapter";
-    Context context;
+   Context context;
+    String dbUsedForFirebase;
     ArrayList<Post> postList;
     private FirebaseUser currentUser;
     String Email1,UserRole;
@@ -76,13 +80,14 @@ public class ViewDetailsAdapter extends RecyclerView.Adapter<ViewDetailsAdapter.
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         currentUser= FirebaseAuth.getInstance().getCurrentUser();
+        dbUsedForFirebase= context.getResources().getString(R.string.firebaseDbUsed);
         if (currentUser != null) {
 
             Email1 = currentUser.getEmail();
             // Toast.makeText(HomePage.this,"Email= "+Email1,Toast.LENGTH_SHORT).show();
 
             Log.d(TAG,"profile= "+Email1);
-            pd=new ProfileDetail(Email1);
+            pd=new ProfileDetail(Email1,dbUsedForFirebase);
             //  Profile p=getUserName1.getProfileDetail();
             // Log.d(TAG,"profile profile detail= "+p.toString());
         }
@@ -194,8 +199,9 @@ public class ViewDetailsAdapter extends RecyclerView.Adapter<ViewDetailsAdapter.
                             Log.d(TAG,"dddd= ");
                             final Profile pi=pd.getAllDetails();
                             //actual db
-                            databaseReference= FirebaseDatabase.getInstance().getReference().child("users").child("expenses").child(pi.getGroupCode());
+                            databaseReference= FirebaseDatabase.getInstance().getReference().child(dbUsedForFirebase).child("expenses").child(pi.getGroupCode());
                           //test db  databaseReference= FirebaseDatabase.getInstance().getReference().child("test").child("users").child("expenses").child(pi.getGroupCode());
+                            StringBuilder sb6 = new StringBuilder();
                             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot5) {
@@ -230,6 +236,7 @@ public class ViewDetailsAdapter extends RecyclerView.Adapter<ViewDetailsAdapter.
                                                         if (dataSnapshot4.getKey().equals("amount")) {
                                                             Long amnt = (Long) dataSnapshot4.getValue();
                                                             am[0] = Double.valueOf(amnt);
+                                                            sb6.append(amnt.toString());
                                                             Log.d(TAG, "amou=" + am[0]);
 
                                                         }
@@ -266,10 +273,11 @@ public class ViewDetailsAdapter extends RecyclerView.Adapter<ViewDetailsAdapter.
                                                         if (i == 0) {
                                                             i++;
 
+                                                            //Password Dailog Box
                                                             Dialog epicDialog = new Dialog(context);
                                                             epicDialog.setContentView(R.layout.updatedelet);
                                                             Button btnUpdate = epicDialog.findViewById(R.id.updatebtnid);
-                                                            Button btnDone = epicDialog.findViewById(R.id.donebtnid);
+                                                            Button viewBtn = epicDialog.findViewById(R.id.donebtnid);
                                                             Button btnDelet = epicDialog.findViewById(R.id.deletebtnid);
                                                             EditText passvlaue = epicDialog.findViewById(R.id.passChangeauth);
                                                             Button verifyBtn = epicDialog.findViewById(R.id.verifypassbtn);
@@ -316,82 +324,70 @@ public class ViewDetailsAdapter extends RecyclerView.Adapter<ViewDetailsAdapter.
                                                                 }
                                                             });
 
+                                                            //Finding Total Amount and copying in text view ----start-----
+                                                            StringBuilder sb5 = new StringBuilder();
+                                                            final String[] prefix = {""};
 
-                                                            btnDone.setOnClickListener(new View.OnClickListener() {
+
+                                                            DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child(dbUsedForFirebase).child("expenses").child(pi.getGroupCode()).child("2020").child(mm);
+                                                            databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                @Override
+                                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                                                                        Log.d(TAG, "dataSnapshot1 key = " + dataSnapshot1.getKey());
+
+                                                                        for (DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()) {
+
+
+                                                                            Post post = dataSnapshot2.getValue(Post.class);
+
+
+                                                                            if (post.getShortName().equalsIgnoreCase(shortName) && post.getStatus().equalsIgnoreCase("ND"))
+                                                                            {
+
+                                                                                totalAmount+=post.getAmount();
+                                                                                sb5.append(prefix[0]);
+                                                                                prefix[0] ="+";
+                                                                                sb5.append(post.getAmount());
+
+                                                                           Log.d(TAG,"totalAmount=="+totalAmount);
+                                                                            }
+
+
+                                                                        }
+
+
+
+                                                                    }
+                                                                }
+
+                                                                @Override
+                                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                                }
+                                                            });
+
+
+
+                                                            //  ----find Amount end -------------
+
+
+
+
+
+
+                                                            viewBtn.setOnClickListener(new View.OnClickListener() {
                                                                 String amountText="";
                                                                 @Override
                                                                 public void onClick(View view) {
                                                                     //  actual db DatabaseReference databaseReference1=FirebaseDatabase.getInstance().getReference().child("users").child("expenses").child(pi.getGroupCode()).child(mm).child(md).child(ukid).child("status");
 
-                                                                    DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("users").child("expenses").child(pi.getGroupCode()).child("2020").child(mm);
-                                                                    databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                                        @Override
-                                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                                            totalAmount=0.0;
 
-
-                                                                            for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                                                                                Log.d(TAG, "dataSnapshot1 key = " + dataSnapshot1.getKey());
-
-                                                                                for (DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()) {
-
-                                                                                    Log.d(TAG, "dataSnapshot2 key= " + dataSnapshot2.getKey());
-                                                                                    Post post = dataSnapshot2.getValue(Post.class);
-                                                                                    Log.d(TAG, "post1= " + post.toString());
-                                                                                    Log.d(TAG, "shortName= " + shortName);
-
-                                                                                    if (post.getShortName().equalsIgnoreCase(shortName) && post.getStatus().equalsIgnoreCase("ND"))
-                                                                                    {
-                                                                                        Log.d(TAG, "monthDAte= " + dataSnapshot1.getKey());
-                                                                                        Log.d(TAG, "uniqkey= " + dataSnapshot2.getKey());
-                                                                                        Log.d(TAG, "AmountTotal Not Paid= " + post.getAmount());
-                                                                                        Log.d(TAG,"totalAmount=="+totalAmount);
-                                                                                        amountText+="+ "+post.getAmount();
-                                                                                        totalAmount+=post.getAmount();
-
-                                                                                        Log.d(TAG,"totalAmount=="+totalAmount);
+                                                                    Log.d(TAG,"sb= "+sb5.toString());
 
 
 
 
-
-                                                                                    }
-
-
-                                                                                }
-                                                                                Log.d(TAG, "totalAmount[0]" + totalAmount);
-                                                                                Log.d(TAG, "amountText[0]" + amountText);
-
-
-                                                                            }
-                                                                        }
-
-                                                                        @Override
-                                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                                                        }
-                                                                    });
-
-
-
-                                                                    Log.d(TAG, "before Timer");
-
-                                                                    if (totalAmount == null && amountText == null) {
-
-                                                                        new Handler().postDelayed(new Runnable() {
-                                                                            @Override
-                                                                            public void run() {
-                                                                                Log.d(TAG, "Inside Timer");
-
-
-                                                                            }
-                                                                        }, 1000);
-
-                                                                    }
-                                                                    Log.d(TAG, "totalAmount[1]" + totalAmount);
-                                                                    Log.d(TAG, "amountText[1]" + amountText);
-
-                                                                    Log.d(TAG, "After Timer");
 
                                                                     Dialog dialog = new Dialog(context);
                                                                     dialog.setContentView(R.layout.done_layout);
@@ -405,7 +401,7 @@ public class ViewDetailsAdapter extends RecyclerView.Adapter<ViewDetailsAdapter.
 
                                                                     if(totalAmount!=0.0)
                                                                     {
-                                                                        editText.setText(totalAmount.toString());
+                                                                        editText.setText(totalAmount+" = "+sb5.toString());
                                                                     }
 
 
@@ -413,7 +409,7 @@ public class ViewDetailsAdapter extends RecyclerView.Adapter<ViewDetailsAdapter.
                                                                     copyButton1.setOnClickListener(new View.OnClickListener() {
                                                                         @Override
                                                                         public void onClick(View v) {
-                                                                            /*copyTextFunction(context,editText.getText());*/
+                                                                            copyTextFunction(context,editText.getText());
 
                                                                         }
                                                                     });
@@ -431,7 +427,7 @@ public class ViewDetailsAdapter extends RecyclerView.Adapter<ViewDetailsAdapter.
                                                                             Log.d(TAG, "done ukid 33=" + ukid[0]);
                                                                             Log.d(TAG, "done uk 33=" + uk);
                                                                             //test db DatabaseReference databaseReference1=FirebaseDatabase.getInstance().getReference().child("test").child("users").child("expenses").child(pi.getGroupCode()).child(mm).child(md).child(uk).child("status");
-                                                                            DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference().child("users").child("expenses").child(pi.getGroupCode()).child(mm).child(md).child(uk).child("status");
+                                                                            DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference().child(dbUsedForFirebase).child("expenses").child(pi.getGroupCode()).child("2020").child(mm).child(md).child(uk).child("status");
                                                                             databaseReference1.setValue("D");
                                                                             epicDialog.dismiss();
                                                                             dialog.dismiss();
@@ -445,7 +441,7 @@ public class ViewDetailsAdapter extends RecyclerView.Adapter<ViewDetailsAdapter.
                                                                         public void onClick(View v) {
 
                                                                             //shortName
-                                                                            DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("users").child("expenses").child(pi.getGroupCode()).child("2020").child(mm);
+                                                                            DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child(dbUsedForFirebase).child("expenses").child(pi.getGroupCode()).child("2020").child(mm);
                                                                             databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {
                                                                                 @Override
                                                                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -465,7 +461,7 @@ public class ViewDetailsAdapter extends RecyclerView.Adapter<ViewDetailsAdapter.
                                                                                                 Log.d(TAG, "uniqkey= " + dataSnapshot2.getKey());
 
 
-                                                                                                DatabaseReference databaseReference3 = FirebaseDatabase.getInstance().getReference().child("users").child("expenses").child(pi.getGroupCode()).child("2020").child(mm).child(dataSnapshot1.getKey()).child(dataSnapshot2.getKey()).child("status");
+                                                                                                DatabaseReference databaseReference3 = FirebaseDatabase.getInstance().getReference().child(dbUsedForFirebase).child("expenses").child(pi.getGroupCode()).child("2020").child(mm).child(dataSnapshot1.getKey()).child(dataSnapshot2.getKey()).child("status");
                                                                                                 databaseReference3.setValue("D");
                                                                                                 epicDialog.dismiss();
                                                                                                 dialog.dismiss();
@@ -491,11 +487,11 @@ public class ViewDetailsAdapter extends RecyclerView.Adapter<ViewDetailsAdapter.
                                                                     });
 
 
-                                                                    Log.d(TAG, "done ukid 33=" + ukid[0]);
+                                                                   /* Log.d(TAG, "done ukid 33=" + ukid[0]);
                                                                     Log.d(TAG, "done uk 33=" + uk);
                                                                     //test db DatabaseReference databaseReference1=FirebaseDatabase.getInstance().getReference().child("test").child("users").child("expenses").child(pi.getGroupCode()).child(mm).child(md).child(uk).child("status");
-                                                                    DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference().child("users").child("expenses").child(pi.getGroupCode()).child(mm).child(md).child(uk).child("status");
-                                                                    databaseReference1.setValue("D");
+                                                                    DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference().child(dbUsedForFirebase).child("expenses").child(pi.getGroupCode()).child("2020").child(mm).child(md).child(uk).child("status");
+                                                                    databaseReference1.setValue("D");*/
 
                                                                     //Toast.makeText(context,"done",Toast.LENGTH_SHORT).show();
 
@@ -507,7 +503,7 @@ public class ViewDetailsAdapter extends RecyclerView.Adapter<ViewDetailsAdapter.
                                                                 @Override
                                                                 public void onClick(View view) {
                                                                     //test db  DatabaseReference databaseReference22=FirebaseDatabase.getInstance().getReference().child("test").child("users").child("expenses").child(pi.getGroupCode()).child(mm).child(md);
-                                                                    DatabaseReference databaseReference22 = FirebaseDatabase.getInstance().getReference().child("users").child("expenses").child(pi.getGroupCode()).child("2020").child(mm).child(md);
+                                                                    DatabaseReference databaseReference22 = FirebaseDatabase.getInstance().getReference().child(dbUsedForFirebase).child("expenses").child(pi.getGroupCode()).child("2020").child(mm).child(md);
                                                                     Log.d(TAG, "del ukid=" + ukid[0]);
 
                                                                     databaseReference22.child(uk).setValue(null);
@@ -579,7 +575,7 @@ public class ViewDetailsAdapter extends RecyclerView.Adapter<ViewDetailsAdapter.
 
                                                                                 Toast.makeText(context, "Updated", Toast.LENGTH_SHORT).show();
                                                                                 //test db  DatabaseReference databaseReference1=FirebaseDatabase.getInstance().getReference().child("test").child("users").child("expenses").child(pi.getGroupCode()).child(mm).child(md).child(uk);
-                                                                                DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference().child("users").child("expenses").child(pi.getGroupCode()).child("2020").child(mm).child(md).child(uk);
+                                                                                DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference().child(dbUsedForFirebase).child("expenses").child(pi.getGroupCode()).child("2020").child(mm).child(md).child(uk);
                                                                                 databaseReference1.child("status").setValue(input3.getText().toString());
                                                                                 databaseReference1.child("comment").setValue(input2.getText().toString());
                                                                                 databaseReference1.child("amount").setValue(Double.parseDouble(input1.getText().toString()));
@@ -748,10 +744,13 @@ public class ViewDetailsAdapter extends RecyclerView.Adapter<ViewDetailsAdapter.
             if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
                 android.text.ClipboardManager clipboard = (android.text.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                 clipboard.setText(text);
+                Toast.makeText(context2,"Text copied Successfully",Toast.LENGTH_SHORT).show();
+
             } else {
                 android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                 android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
                 clipboard.setPrimaryClip(clip);
+                Toast.makeText(context2,"Text copied Successfully",Toast.LENGTH_SHORT).show();
             }
 
 

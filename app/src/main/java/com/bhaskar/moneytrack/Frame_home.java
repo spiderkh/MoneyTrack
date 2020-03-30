@@ -42,7 +42,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+
 public class Frame_home extends Fragment {
+    String dbUsedForFirebase;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     Spinner spinnercat;
@@ -69,6 +71,7 @@ public class Frame_home extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.activity_home_page, container, false);
+        dbUsedForFirebase= this.getActivity().getResources().getString(R.string.firebaseDbUsed);
 
 
         spinnercat = v.findViewById(R.id.Category);
@@ -78,7 +81,7 @@ public class Frame_home extends Fragment {
         SubmitBtn = v.findViewById(R.id.submitbtn1);
         loginprogressbar = v.findViewById(R.id.LoginProgressBarHome);
         mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+        mDatabase = FirebaseDatabase.getInstance().getReference(dbUsedForFirebase);
 
 
 
@@ -201,7 +204,7 @@ public class Frame_home extends Fragment {
             Toast.makeText(getContext(),"Log In Again",Toast.LENGTH_SHORT).show();
         }
 
-        pd=new ProfileDetail(Email1);
+        pd=new ProfileDetail(Email1,dbUsedForFirebase);
 
 
         final String finalEmail = Email1;

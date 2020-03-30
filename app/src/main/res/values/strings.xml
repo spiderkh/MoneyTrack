@@ -10,6 +10,8 @@
     <string name="TestAdmobBanner1">ca-app-pub-6982512613810746/8822565868</string>
     <string name="TestAdmobAppId">ca-app-pub-6982512613810746~5651631132</string>
     <string name="TestAdmobInter1">ca-app-pub-6982512613810746/5911485582</string>
+    <string name="firebaseDbUsed">users</string>
+
 
     <string-array name="country_arrays">
         <item>Vegetable</item>

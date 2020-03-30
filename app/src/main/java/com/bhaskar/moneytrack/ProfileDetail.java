@@ -1,5 +1,7 @@
 package com.bhaskar.moneytrack;
 
+import android.app.Application;
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -11,14 +13,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
+
 
 public class ProfileDetail  {
+    Context context;
 
+    private String dbUsedForFirebase;
     private static final String TAG = "ProfileDetail";
     private  String mailId;
     private Profile profile;
-    DatabaseReference  mDatabase= FirebaseDatabase.getInstance().getReference("users").child("profile");
+    DatabaseReference  mDatabase;
     Profile pp=null;
 
 
@@ -34,11 +38,13 @@ public class ProfileDetail  {
 
 
 
-    public ProfileDetail(final String mailId)
+    public ProfileDetail(final String mailId,String dbUsedForFirebase)
     {
      Log.d(TAG,"profile inside ProfileDetail mail= "+mailId);
+        Log.d(TAG,"dbUsedForFirebase= "+dbUsedForFirebase);
      this.mailId=mailId;
-
+     this.dbUsedForFirebase=dbUsedForFirebase;
+        mDatabase= FirebaseDatabase.getInstance().getReference(dbUsedForFirebase).child("profile");
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

@@ -36,12 +36,14 @@ public class FragmentMain extends AppCompatActivity {
     private static final String TAG = "FragmentMain";
     SharedPreferences pref;
     Gson gson;
+    String dbUsedForFirebase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment_main);
         pref=getSharedPreferences("profilePref",Context.MODE_PRIVATE);
+        dbUsedForFirebase=getResources().getString(R.string.firebaseDbUsed);
         gson = new Gson();
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
@@ -57,7 +59,7 @@ public class FragmentMain extends AppCompatActivity {
         else {
             Toast.makeText(getApplicationContext(),"Log In Again",Toast.LENGTH_SHORT).show();
         }
-        pd=new ProfileDetail(Email1);
+        pd=new ProfileDetail(Email1,dbUsedForFirebase);
         ml=new MonthLimit(FragmentMain.this);
 
 

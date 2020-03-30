@@ -18,7 +18,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
+
+
 public class MonthLimit {
+
     private int limit;
     private  Profile p;
     Context context;
@@ -26,6 +30,10 @@ public class MonthLimit {
     DateFormat monthDateFormat=new SimpleDateFormat("MMMM");
     Date date = new Date();
     final String currentMonthName= monthDateFormat.format(date);
+    String dbUsedForFirebase;
+
+
+
 
 
 
@@ -35,6 +43,8 @@ public class MonthLimit {
 
     public MonthLimit(final Context context) {
       this.context=context;
+      this.dbUsedForFirebase=context.getResources().getString(R.string.firebaseDbUsed);
+
 
     }
 
@@ -45,7 +55,8 @@ public class MonthLimit {
 
     public void setLimit(final int limit) {
 
-        DatabaseReference databaseReference1=FirebaseDatabase.getInstance().getReference().child("users").child("profile");
+
+        DatabaseReference databaseReference1=FirebaseDatabase.getInstance().getReference().child(dbUsedForFirebase).child("profile");
          databaseReference1.addValueEventListener(new ValueEventListener() {
              @Override
              public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -53,8 +64,12 @@ public class MonthLimit {
                  for (DataSnapshot dataSnapshot1:dataSnapshot.getChildren())
                  {
                      String key=dataSnapshot1.getKey();
-                     Log.d(TAG,"key= "+key);
-                     DatabaseReference databaseReference2=FirebaseDatabase.getInstance().getReference().child("users").child("profile").child(key).child("limit");
+                     Log.d(TAG,"key = "+key);
+                     Log.d(TAG,"dbUsedForFirebase= "+dbUsedForFirebase);
+
+
+
+                     DatabaseReference databaseReference2=FirebaseDatabase.getInstance().getReference().child(dbUsedForFirebase).child("profile").child(key).child("limit");
                      databaseReference2.setValue(limit);
                  }
              }

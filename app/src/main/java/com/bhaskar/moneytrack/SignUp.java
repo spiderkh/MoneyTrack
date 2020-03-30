@@ -35,6 +35,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.regex.Pattern;
 
+
+
 public class SignUp extends AppCompatActivity implements View.OnClickListener {
     private FirebaseAuth mAuth;
     EditText email,pass,name,mobile,groupcode,groupname;
@@ -52,13 +54,14 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
     int uiu=0;
     boolean groupNamereturn;
     private DatabaseReference mDatabase,databaseReference;
-
+    String dbUsedForFirebase;
     private static final String TAG = "SignUp";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         mAuth = FirebaseAuth.getInstance();
+        dbUsedForFirebase= getResources().getString(R.string.firebaseDbUsed);
         email= findViewById(R.id.SignUpEmail);
         pass= findViewById(R.id.SignUpPass);
         name= findViewById(R.id.SignUpName);
@@ -75,7 +78,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         Typeface localTypeface2 = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Montserrat-Bold.ttf");
         iv.setTypeface(localTypeface2);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+        mDatabase = FirebaseDatabase.getInstance().getReference(dbUsedForFirebase);
 
         signupprogressbar= findViewById(R.id.SignUpProgressBar);
         findViewById(R.id.SignUpBtn).setOnClickListener(this);
@@ -314,7 +317,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         final boolean[] rr = {true};
 
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child("profile");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child(dbUsedForFirebase).child("profile");
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -405,7 +408,7 @@ int kk=0; // for toast display once  only after success
         final String[] gn = {""};
 
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child("profile").child(gc);
+        databaseReference = FirebaseDatabase.getInstance().getReference().child(dbUsedForFirebase).child("profile").child(gc);
         databaseReference.addValueEventListener(new ValueEventListener() {
             boolean rr=true;
 

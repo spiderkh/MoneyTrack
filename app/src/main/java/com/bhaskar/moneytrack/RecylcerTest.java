@@ -15,7 +15,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+
+
 public class RecylcerTest extends AppCompatActivity {
+    String dbUsedForFirebase;
     private static final String TAG = "RecyclerTest";
     DatabaseReference databaseReference;
     RecyclerView recyclerView;
@@ -27,12 +30,13 @@ public class RecylcerTest extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recylcer_test);
+        dbUsedForFirebase= getResources().getString(R.string.firebaseDbUsed);
 
         recyclerView= findViewById(R.id.recylcerviewid);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         pList=new ArrayList<Post>();
 
-        databaseReference= FirebaseDatabase.getInstance().getReference().child("users").child("expenses");
+        databaseReference= FirebaseDatabase.getInstance().getReference().child(dbUsedForFirebase).child("expenses");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
