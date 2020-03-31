@@ -1,8 +1,8 @@
 package com.bhaskar.moneytrack;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,7 +14,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-
 
 
 public class RecylcerTest extends AppCompatActivity {
@@ -30,29 +29,26 @@ public class RecylcerTest extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recylcer_test);
-        dbUsedForFirebase= getResources().getString(R.string.firebaseDbUsed);
+        dbUsedForFirebase = getResources().getString(R.string.firebaseDbUsed);
 
-        recyclerView= findViewById(R.id.recylcerviewid);
+        recyclerView = findViewById(R.id.recylcerviewid);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        pList=new ArrayList<Post>();
+        pList = new ArrayList<Post>();
 
-        databaseReference= FirebaseDatabase.getInstance().getReference().child(dbUsedForFirebase).child("expenses");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child(dbUsedForFirebase).child("expenses");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren())
-                {
-                  String mm=dataSnapshot1.getValue().toString();
-                    Log.d(TAG,"Month = "+mm);
-                    for(DataSnapshot dataSnapshot2:dataSnapshot1.getChildren())
-                    {
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                    String mm = dataSnapshot1.getValue().toString();
+                    Log.d(TAG, "Month = " + mm);
+                    for (DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()) {
 
 
-                        for(DataSnapshot dataSnapshot3:dataSnapshot2.getChildren())
-                        {
-                            Post p=dataSnapshot3.getValue(Post.class);
-                            Log.d(TAG,"Post = "+p.toString() );
+                        for (DataSnapshot dataSnapshot3 : dataSnapshot2.getChildren()) {
+                            Post p = dataSnapshot3.getValue(Post.class);
+                            Log.d(TAG, "Post = " + p.toString());
 
                             pList.add(p);
 
@@ -62,9 +58,8 @@ public class RecylcerTest extends AppCompatActivity {
                     }
 
 
-
                 }
-                MyAdapter=new ViewDetailsAdapter(RecylcerTest.this,pList);
+                MyAdapter = new ViewDetailsAdapter(RecylcerTest.this, pList);
                 recyclerView.setAdapter(MyAdapter);
 
 

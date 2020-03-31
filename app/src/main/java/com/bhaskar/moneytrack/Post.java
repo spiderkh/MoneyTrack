@@ -1,20 +1,18 @@
 package com.bhaskar.moneytrack;
 
-import java.util.Date;
-
 public class Post {
-   private String dropcategory;
-   private Double amount;
-   private String  comment;
-   private String date;
-   private String email;
-   private String Month;
-   private String yearName;
-   private String time;
-   private  String shortName;
-   private  String status;
-   private String uniquekey;
-   private String updated;
+    private String dropcategory;
+    private Double amount;
+    private String comment;
+    private String date;
+    private String email;
+    private String Month;
+    private String yearName;
+    private String time;
+    private String shortName;
+    private String status;
+    private String uniquekey;
+    private String updated;
 
 
     @Override
@@ -99,10 +97,10 @@ public class Post {
         this.time = time;
     }
 
-    public Post()
-    {
+    public Post() {
 
     }
+
     public String getEmail() {
         return email;
     }
@@ -110,8 +108,6 @@ public class Post {
     public void setEmail(String email) {
         this.email = email;
     }
-
-
 
 
     public String getDropcategory() {

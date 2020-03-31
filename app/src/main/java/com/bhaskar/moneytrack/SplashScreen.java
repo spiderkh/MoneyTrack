@@ -21,23 +21,22 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         //TextView tv=(TextView)findViewById(R.id.splashText);
-        TextView iv=(TextView)findViewById(R.id.splashtxt);
+        TextView iv = (TextView) findViewById(R.id.splashtxt);
 
 
         Typeface localTypeface2 = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Montserrat-Bold.ttf");
         iv.setTypeface(localTypeface2);
 
-      //  ImageView ivmsg=(ImageView)findViewById(R.id.splashmsg);
-        Animation anima= AnimationUtils.loadAnimation(SplashScreen.this,R.anim.myanimation);
+        //  ImageView ivmsg=(ImageView)findViewById(R.id.splashmsg);
+        Animation anima = AnimationUtils.loadAnimation(SplashScreen.this, R.anim.myanimation);
 
       /*  RotateAnimation animation= new RotateAnimation(0,1080, Animation.RELATIVE_TO_SELF,
                 0.5f,Animation.RELATIVE_TO_SELF,0.5f);
         animation.setDuration(5000);*/
 
         iv.startAnimation(anima);
-        Animation animd= AnimationUtils.loadAnimation(SplashScreen.this,R.anim.downtoup);
-       // ivmsg.startAnimation(animation);
-
+        Animation animd = AnimationUtils.loadAnimation(SplashScreen.this, R.anim.downtoup);
+        // ivmsg.startAnimation(animation);
 
 
         new Handler().postDelayed(new Runnable() {
@@ -49,7 +48,7 @@ public class SplashScreen extends AppCompatActivity {
 
 
                 if (mAuth.getCurrentUser() != null) {
-                    Log.d(TAG, "User ALreay Logged In with Id= "+mAuth.getCurrentUser());
+                    Log.d(TAG, "User ALreay Logged In with Id= " + mAuth.getCurrentUser());
                     finish();
                     Intent intent1 = new Intent(SplashScreen.this, FragmentMain.class);
                     intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -58,10 +57,7 @@ public class SplashScreen extends AppCompatActivity {
                     finish();
 
 
-
-                }
-                else
-                {
+                } else {
                     Log.d(TAG, "User Not Logged In");
                     Intent intent = new Intent(SplashScreen.this, Login.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -71,9 +67,8 @@ public class SplashScreen extends AppCompatActivity {
                 }
 
 
-
             }
-        },2000);
+        }, 2000);
 
 
     }

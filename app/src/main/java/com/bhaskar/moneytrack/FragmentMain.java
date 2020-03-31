@@ -32,7 +32,7 @@ public class FragmentMain extends AppCompatActivity {
     MonthLimit ml;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
-    String Email1="";
+    String Email1 = "";
     private static final String TAG = "FragmentMain";
     SharedPreferences pref;
     Gson gson;
@@ -42,87 +42,82 @@ public class FragmentMain extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment_main);
-        pref=getSharedPreferences("profilePref",Context.MODE_PRIVATE);
-        dbUsedForFirebase=getResources().getString(R.string.firebaseDbUsed);
+        pref = getSharedPreferences("profilePref", Context.MODE_PRIVATE);
+        dbUsedForFirebase = getResources().getString(R.string.firebaseDbUsed);
         gson = new Gson();
-        BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
-       getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new Frame_home()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Frame_home()).commit();
         mAuth = FirebaseAuth.getInstance();
-        currentUser= mAuth.getCurrentUser();
+        currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
 
             Email1 = currentUser.getEmail();
             // Toast.makeText(HomePage.this,"Email= "+Email1,Toast.LENGTH_SHORT).show();
 
+        } else {
+            Toast.makeText(getApplicationContext(), "Log In Again", Toast.LENGTH_SHORT).show();
         }
-        else {
-            Toast.makeText(getApplicationContext(),"Log In Again",Toast.LENGTH_SHORT).show();
-        }
-        pd=new ProfileDetail(Email1,dbUsedForFirebase);
-        ml=new MonthLimit(FragmentMain.this);
+        pd = new ProfileDetail(Email1, dbUsedForFirebase);
+        ml = new MonthLimit(FragmentMain.this);
 
 
     }
-    private  BottomNavigationView.OnNavigationItemSelectedListener navListener=
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    Fragment selectedFragment=null;
+                    Fragment selectedFragment = null;
 
                     switch (item.getItemId()) {
                         case R.id.nav_home:
                             selectedFragment = new Frame_home();
-                        break;
-                       case R.id.nav_viewDetails:
-                           try {
-                               String json11 = pref.getString("ProfileObject", "noValue");
-                               if (json11.equalsIgnoreCase("noValue")) {
-                                   Log.d(TAG, "SharedPrtef Not Exists ");
-                                   Log.d(TAG, "profile pd= " + pd.getAllDetails().toString());
-                                   Profile pf = pd.getAllDetails();
-                                   Log.d(TAG, "SharedPrtef return NoValue");
-                                   SharedPreferences.Editor prefsEditor = pref.edit();
-                                   String json = gson.toJson(pf);
-                                   prefsEditor.putString("ProfileObject", json);
-                                   prefsEditor.commit();
-                               } else {
-                                   Log.d(TAG, "SharedPrtef  Exists wow go ahead WIthout Worry");
-                               }
-                           }catch (Exception e)
-                           {
-                               Log.d(TAG,"inside cath of FragmentMain for ViewDetails ");
-                               Log.d(TAG,e.getMessage());
-                               break;
-                           }
-                           selectedFragment = new Frame_details();
+                            break;
+                        case R.id.nav_viewDetails:
+                            try {
+                                String json11 = pref.getString("ProfileObject", "noValue");
+                                if (json11.equalsIgnoreCase("noValue")) {
+                                    Log.d(TAG, "SharedPrtef Not Exists ");
+                                    Log.d(TAG, "profile pd= " + pd.getAllDetails().toString());
+                                    Profile pf = pd.getAllDetails();
+                                    Log.d(TAG, "SharedPrtef return NoValue");
+                                    SharedPreferences.Editor prefsEditor = pref.edit();
+                                    String json = gson.toJson(pf);
+                                    prefsEditor.putString("ProfileObject", json);
+                                    prefsEditor.commit();
+                                } else {
+                                    Log.d(TAG, "SharedPrtef  Exists wow go ahead WIthout Worry");
+                                }
+                            } catch (Exception e) {
+                                Log.d(TAG, "inside cath of FragmentMain for ViewDetails ");
+                                Log.d(TAG, e.getMessage());
+                                break;
+                            }
+                            selectedFragment = new Frame_details();
                             break;
                         case R.id.nav_profile:
-                            try{
+                            try {
                                 String json1 = pref.getString("ProfileObject", "noValue");
-                                if(json1.equalsIgnoreCase("noValue"))
-                                {
-                                    Log.d(TAG,"profile pd profileshow= "+pd.getAllDetails().toString());
-                                    Profile pf=pd.getAllDetails();
-                                    Log.d(TAG,"SharedPrtef return NoValue");
+                                if (json1.equalsIgnoreCase("noValue")) {
+                                    Log.d(TAG, "profile pd profileshow= " + pd.getAllDetails().toString());
+                                    Profile pf = pd.getAllDetails();
+                                    Log.d(TAG, "SharedPrtef return NoValue");
                                     SharedPreferences.Editor prefsEditor = pref.edit();
-                                    String json=gson.toJson(pf);
+                                    String json = gson.toJson(pf);
                                     prefsEditor.putString("ProfileObject", json);
                                     prefsEditor.commit();
 
 
-                                }
-                                else
-                                {
+                                } else {
                                     Log.d(TAG, "SharedPrtef profile  Exists wow go ahead WIthout Worry");
                                 }
                                 selectedFragment = new Frame_profile();
 
 
-                            }catch (Exception e)
-                            {
-                                Log.d(TAG,"inside cath of FragmentMain for ProfileShow ");
-                                Log.d(TAG,e.getMessage());
+                            } catch (Exception e) {
+                                Log.d(TAG, "inside cath of FragmentMain for ProfileShow ");
+                                Log.d(TAG, e.getMessage());
 
                                 break;
                             }
@@ -133,13 +128,9 @@ public class FragmentMain extends AppCompatActivity {
                     try {
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                                 selectedFragment).commit();
-                    }catch (NullPointerException v)
-                    {
-                        Toast.makeText(getApplicationContext(),"Please Wait Data is Loading.....",Toast.LENGTH_SHORT).show();
+                    } catch (NullPointerException v) {
+                        Toast.makeText(getApplicationContext(), "Please Wait Data is Loading.....", Toast.LENGTH_SHORT).show();
                     }
-
-
-
 
 
                     return true;
@@ -149,7 +140,7 @@ public class FragmentMain extends AppCompatActivity {
             };
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
 
 
 
@@ -178,16 +169,16 @@ public class FragmentMain extends AppCompatActivity {
         AlertDialog alert = builder.create();
         alert.show();*/
 
-        Dialog epicDialog=new Dialog(this);
+        Dialog epicDialog = new Dialog(this);
         epicDialog.setContentView(R.layout.exit_layout);
-        ImageView btnYes=epicDialog.findViewById(R.id.yesIdOnExit);
-        ImageView btnNo=epicDialog.findViewById(R.id.noIdOnExit);
+        ImageView btnYes = epicDialog.findViewById(R.id.yesIdOnExit);
+        ImageView btnNo = epicDialog.findViewById(R.id.noIdOnExit);
         epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         epicDialog.show();
         btnYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // Toast.makeText(FragmentMain.this,"Yes",Toast.LENGTH_SHORT).show();
+                // Toast.makeText(FragmentMain.this,"Yes",Toast.LENGTH_SHORT).show();
                 epicDialog.dismiss();
                 finish();
 
@@ -196,14 +187,11 @@ public class FragmentMain extends AppCompatActivity {
         btnNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // Toast.makeText(FragmentMain.this,"No",Toast.LENGTH_SHORT).show();
+                // Toast.makeText(FragmentMain.this,"No",Toast.LENGTH_SHORT).show();
                 epicDialog.dismiss();
 
             }
         });
-
-
-
 
 
     }

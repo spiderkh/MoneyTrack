@@ -4,19 +4,19 @@ public class Profile {
 
     private String uniqueKey;
     private String name;
-    private  String email;
+    private String email;
     private String role;
     private String mobile;
     private String groupCode;
     private String groupName;
-    private String  shortName;
+    private String shortName;
     private Double limit;
 
 
     public Profile() {
     }
 
-    public Profile(String uniqueKey, String name, String email, String role, String mobile, String groupCode, String groupName, String shortName,Double limit) {
+    public Profile(String uniqueKey, String name, String email, String role, String mobile, String groupCode, String groupName, String shortName, Double limit) {
         this.uniqueKey = uniqueKey;
         this.name = name;
         this.email = email;
@@ -25,7 +25,7 @@ public class Profile {
         this.groupCode = groupCode;
         this.groupName = groupName;
         this.shortName = shortName;
-        this.limit=limit;
+        this.limit = limit;
     }
 
     public Double getLimit() {
