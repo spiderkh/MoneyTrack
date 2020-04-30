@@ -148,6 +148,7 @@ public class ViewDetailsAdapter extends RecyclerView.Adapter<ViewDetailsAdapter.
                 @Override
                 public void onClick(View view) {
                     i = 0;
+                    totalAmount = 0.0;
                     // String UserName="NU";
                     Profile p = pd.getAllDetails();
                     UserRole = p.getRole();

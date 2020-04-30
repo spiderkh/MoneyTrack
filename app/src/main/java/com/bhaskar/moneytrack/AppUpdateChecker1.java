@@ -81,7 +81,7 @@ public class AppUpdateChecker1 {
                 btnNo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        // Toast.makeText(FragmentMain.this,"No",Toast.LENGTH_SHORT).show();
+
                         epicDialog.dismiss();
 
                     }
